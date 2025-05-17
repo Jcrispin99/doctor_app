@@ -1,5 +1,4 @@
 from django.db import models
-from .models import Doctor
 # Create your models here.
 class Patient(models.Model):
     first_name = models.CharField(max_length=100)
@@ -15,7 +14,6 @@ class Insurance(models.Model):
     provider = models.CharField(max_length=100)
     policy_number = models.CharField(max_length=50)
     expliration_date = models.DateField()
-
 
 class MedicalRecord(models.Model):
     patient = models.ForeignKey(Patient, related_name='medical_records', on_delete=models.CASCADE)
