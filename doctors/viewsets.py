@@ -1,10 +1,26 @@
 from rest_framework import viewsets
 from .serializers import DoctorSerializer, DepartamentSerializer, DoctorAvailabilitySerializer, MedicalNoteSerializer
 from .models import Doctor, Departament, DoctorAvailability, MedicalNote
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 class DoctorViewSet(viewsets.ModelViewSet):
     serializer_class = DoctorSerializer
     queryset = Doctor.objects.all()
+
+    @action(detail=True, methods=['POST'])# Definir que metodo se va a utilizar con detaill decimos si va a aser un detalle o una lista, detail tru hace acciones en un solo item 
+    def set_on_vacation(self, request, pk):
+        doctor = self.get_object()
+        doctor.is_on_vacation = True
+        doctor.save()
+        return Response({"status":"Doctor is now on vacation"})
+
+    @action(detail=True, methods=['POST'])
+    def set_off_vacation(self, request, pk):
+        doctor = self.get_object()
+        doctor.is_on_vacation = False
+        doctor.save()
+        return Response({"status":"Doctor is available"})
 
 class DepartamenViewSet(viewsets.ModelViewSet):
     serializer_class = DepartamentSerializer
@@ -17,3 +33,4 @@ class DoctoravailabilitiesViewSet(viewsets.ModelViewSet):
 class MedicalnotesViewSet(viewsets.ModelViewSet):
     serializer_class = MedicalNoteSerializer
     queryset = MedicalNote.objects.all()
+
