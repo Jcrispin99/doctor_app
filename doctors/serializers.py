@@ -6,6 +6,19 @@ class DoctorSerializer(serializers.ModelSerializer):
         model = Doctor
         fields = '__all__'
 
+    def validate_email(self, value):
+        if "example.com" in value:
+            return value
+        raise serializers.ValidationError("Invalid email domain")
+
+    def validate(self, attrs):
+        if len(attrs['phone_number']) != 9 and attrs['is_on_vacation'] == True:
+            raise serializers.ValidationError(
+                "Por Favor, verificar su numero de telefono"
+            )
+        return super().validate(attrs)
+
+
 class DepartamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Departament
