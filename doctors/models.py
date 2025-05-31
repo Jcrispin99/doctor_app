@@ -10,6 +10,7 @@ class Doctor(models.Model):
     address = models.TextField()
     biography = models.TextField()
     is_on_vacation = models.BooleanField(default=False)
+    career_start_date = models.DateField(default=None, null=True)
 
 class Departament(models.Model):
     name = models.CharField(max_length=100)
